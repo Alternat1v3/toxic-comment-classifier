@@ -1,7 +1,8 @@
 # Everything in requirements.txt, plus what the BERT classifier and the training scripts need.
 # CPU-only PyTorch is enough:  pip install torch --index-url https://download.pytorch.org/whl/cpu
 -r requirements.txt
-torch>=2.2,<3
+# 2.4.0 computed softmax wrongly with several CPU threads on Windows, so the model output was garbage.
+torch>=2.5.1,<3
 transformers>=4.44,<5
 numpy<2
 scikit-learn>=1.5,<2

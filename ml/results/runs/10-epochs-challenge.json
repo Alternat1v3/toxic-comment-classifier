@@ -1,0 +1,294 @@
+{
+  "model": "model-new",
+  "data": "challenge.csv",
+  "accuracy": 0.8333,
+  "macro_f1": 0.823,
+  "confusion_matrix": {
+    "labels": [
+      "identity hate",
+      "insult",
+      "threat",
+      "obscene",
+      "severe toxic",
+      "toxic",
+      "non-toxic"
+    ],
+    "rows_are_true_labels": [
+      [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        5,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        5,
+        0,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        1,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6
+      ]
+    ]
+  },
+  "predictions": [
+    {
+      "content": "Get lost you dumb retard.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "Your whole race is disgusting.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "Go back to your own country, we don't want your kind here.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "People of your religion are a disease.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "Disabled people like you are useless to society.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "Nobody wants your kind in this group.",
+      "label": "identity hate",
+      "predicted": "identity hate"
+    },
+    {
+      "content": "I know where you live and I'm coming for you.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "Say that again and I'll break your legs.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "You'd better watch your back tonight.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "I swear I will make you pay for this.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "Keep talking and you won't wake up tomorrow.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "I'm going to hurt you so badly.",
+      "label": "threat",
+      "predicted": "threat"
+    },
+    {
+      "content": "Fuck this shit, I'm done.",
+      "label": "obscene",
+      "predicted": "threat"
+    },
+    {
+      "content": "Shut your fucking mouth.",
+      "label": "obscene",
+      "predicted": "obscene"
+    },
+    {
+      "content": "What the fuck is wrong with you, asshole?",
+      "label": "obscene",
+      "predicted": "obscene"
+    },
+    {
+      "content": "Kiss my ass.",
+      "label": "obscene",
+      "predicted": "obscene"
+    },
+    {
+      "content": "Get your fucking hands off my stuff.",
+      "label": "obscene",
+      "predicted": "obscene"
+    },
+    {
+      "content": "This is such bullshit.",
+      "label": "obscene",
+      "predicted": "obscene"
+    },
+    {
+      "content": "You're an absolute moron.",
+      "label": "insult",
+      "predicted": "insult"
+    },
+    {
+      "content": "Only an idiot would say something that dumb.",
+      "label": "insult",
+      "predicted": "insult"
+    },
+    {
+      "content": "You're a clueless fool.",
+      "label": "insult",
+      "predicted": "insult"
+    },
+    {
+      "content": "What a pathetic excuse for a programmer.",
+      "label": "insult",
+      "predicted": "obscene"
+    },
+    {
+      "content": "You're too stupid to understand this.",
+      "label": "insult",
+      "predicted": "insult"
+    },
+    {
+      "content": "Nobody asked for your dumb opinion, clown.",
+      "label": "insult",
+      "predicted": "insult"
+    },
+    {
+      "content": "I hope you die alone and miserable.",
+      "label": "severe toxic",
+      "predicted": "severe toxic"
+    },
+    {
+      "content": "You're a disgusting piece of garbage.",
+      "label": "severe toxic",
+      "predicted": "obscene"
+    },
+    {
+      "content": "I hope your whole life falls apart.",
+      "label": "severe toxic",
+      "predicted": "severe toxic"
+    },
+    {
+      "content": "Everyone would be happier if you just disappeared.",
+      "label": "severe toxic",
+      "predicted": "severe toxic"
+    },
+    {
+      "content": "You're the worst person I have ever met, I hate you.",
+      "label": "severe toxic",
+      "predicted": "severe toxic"
+    },
+    {
+      "content": "I hope something terrible happens to you.",
+      "label": "severe toxic",
+      "predicted": "severe toxic"
+    },
+    {
+      "content": "You are completely worthless.",
+      "label": "toxic",
+      "predicted": "toxic"
+    },
+    {
+      "content": "Nobody likes you, you're a total failure.",
+      "label": "toxic",
+      "predicted": "insult"
+    },
+    {
+      "content": "You're useless at everything.",
+      "label": "toxic",
+      "predicted": "insult"
+    },
+    {
+      "content": "Your work is garbage, just like you.",
+      "label": "toxic",
+      "predicted": "obscene"
+    },
+    {
+      "content": "You're such a loser.",
+      "label": "toxic",
+      "predicted": "toxic"
+    },
+    {
+      "content": "You're a pathetic waste of time.",
+      "label": "toxic",
+      "predicted": "insult"
+    },
+    {
+      "content": "Thanks for sending the notes!",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    },
+    {
+      "content": "Can we move the meeting to Friday?",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    },
+    {
+      "content": "Good luck on your exam tomorrow.",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    },
+    {
+      "content": "Let me know when you're free to talk.",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    },
+    {
+      "content": "My phone battery is killing me today.",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    },
+    {
+      "content": "That exam was brutal but I survived.",
+      "label": "non-toxic",
+      "predicted": "non-toxic"
+    }
+  ]
+}

@@ -1,6 +1,9 @@
+import tempfile
+from pathlib import Path
 from types import SimpleNamespace
+from unittest import mock
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 
 from chat.moderation import classifier
 from chat.moderation.classifier import BertClassifier, KeywordClassifier
@@ -49,6 +52,18 @@ class FallbackTests(SimpleTestCase):
         with keyword_classifier():
             self.assertIsInstance(classifier.get_classifier(), KeywordClassifier)
             self.assertEqual(classifier.classifier_status()["source"], "keywords")
+
+    def test_falls_back_to_keywords_when_pytorch_math_is_broken(self):
+        with tempfile.TemporaryDirectory() as model_dir:
+            (Path(model_dir) / "config.json").write_text("{}")
+            broken = mock.Mock(side_effect=RuntimeError("PyTorch 2.4.0 computes softmax wrongly"))
+            with override_settings(TOXICITY_MODEL_DIR=Path(model_dir)), mock.patch.object(classifier, "BertClassifier", broken):
+                classifier._classifier = None
+                try:
+                    with self.assertLogs("chat.moderation.classifier", level="ERROR"):
+                        self.assertIsInstance(classifier.get_classifier(), KeywordClassifier)
+                finally:
+                    classifier._classifier = None
 
     def test_moderate_classifies_the_original_and_filters_what_is_shown(self):
         with keyword_classifier():

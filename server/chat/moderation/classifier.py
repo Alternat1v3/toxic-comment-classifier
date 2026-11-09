@@ -45,6 +45,17 @@ class KeywordClassifier:
         return Prediction(worst.label, 1.0, self.source)
 
 
+def softmax_is_reliable(torch, trials=20):
+    """
+    PyTorch 2.4.0 on Windows computed softmax wrongly when it used more than one CPU thread
+    (wrong in about 4 of 5 runs on a 4-core i3). Attention then returned NaN, and every
+    message came out as "identity hate". This compares float32 softmax with float64.
+    """
+    x = torch.randn(4, 12, 32, 32)
+    expected = torch.softmax(x.double(), dim=-1)
+    return all((torch.softmax(x, dim=-1).double() - expected).abs().max().item() < 1e-4 for _ in range(trials))
+
+
 class BertClassifier:
     source = "bert"
 
@@ -54,12 +65,11 @@ class BertClassifier:
 
         self.torch = torch
         torch.set_num_threads(threads or os.cpu_count() or 1)
+        if not softmax_is_reliable(torch):
+            raise RuntimeError(f"PyTorch {torch.__version__} computes softmax wrongly on this machine; install torch>=2.5.1.")
         self.max_length = max_length
         self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
-        # The default "sdpa" attention returns NaN for this model with PyTorch 2.4 and
-        # Transformers 4.44 on CPU, which made every message come out as "identity hate".
-        # The original "eager" attention gives correct results.
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_dir, attn_implementation="eager")
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_dir)
         self.model.eval()
         self.labels = self._labels_from_config(self.model.config)
 
@@ -110,6 +120,9 @@ def _load():
         classifier = BertClassifier(model_dir, threads=settings.TORCH_THREADS)
     except ImportError:
         log.warning("PyTorch/Transformers are not installed (pip install -r requirements-ml.txt); using the keyword list.")
+        return KeywordClassifier()
+    except RuntimeError as error:
+        log.error("Cannot use the BERT model: %s Using the keyword list instead.", error)
         return KeywordClassifier()
     log.info("Loaded the BERT toxicity model from %s", model_dir)
     return classifier
