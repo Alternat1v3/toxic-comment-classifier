@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+Projects/
+
+# Local settings and secrets
+.env
+
+# Data that belongs to the app's users, never to the repository
+db.sqlite3
+db.*.sqlite3
+media/
+chat_data.csv
+preprocessed_chat_data.csv
+true_labels.csv
+predicted_labels.csv
+
+# Trained model weights (about 420 MB; see README for how to get or train them)
+results/
+
+# Node
+node_modules/
+frontend/build/
+
+# Local backups
+.original-assets/
+
+# Editors and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

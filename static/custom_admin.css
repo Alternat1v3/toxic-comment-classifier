@@ -1,0 +1,114 @@
+footer {
+  display: none !important;
+}
+/*MAIN SITE WRAPPER SETTING*/
+.content-wrapper{
+  background: linear-gradient(128deg, rgba(24, 53, 91, 1) 0%, rgba(17, 26, 38, 1) 53%, rgba(21, 24, 29, 1) 97%) !important;
+  background-size: cover !important;
+}
+.main-header{
+  background: linear-gradient(128deg, rgba(24, 53, 91, 1) 0%, rgba(17, 26, 38, 1) 53%, rgba(21, 24, 29, 1) 97%) !important;
+  background-size: cover !important;
+}
+.main-sidebar{
+  background: linear-gradient(128deg, rgba(17, 26, 38, 1) 17%, rgba(35, 69, 115, 1) 38%, rgba(21, 24, 29, 1) 97%) !important;
+  background-size: cover !important;
+}
+/*SIDE SETTINGS*/
+.nav-link {
+  color: whitesmoke !important;
+  font-weight: bold !important;
+  font-size: 17px !important;
+}
+.brand-link {
+  background: linear-gradient(128deg, rgba(0, 0, 0, 1) 0%, rgba(13, 35, 65, 1) 53%, rgba(40, 68, 117, 1) 97%) !important;
+}
+.brand-image {
+  display: none;
+}
+.brand-text{
+  font-size: 16px;
+}
+/*MESSAGE TABLE SETTING*/
+.column-receiver {
+  color: rgb(72, 178, 240) !important;
+}
+.column-content {
+  color: rgb(72, 178, 240) !important;
+}
+.column-toxicity_label {
+  color: rgb(206, 49, 13) !important;
+}
+.column-timestamp {
+  color: rgb(72, 178, 240) !important;
+}
+li{
+  color: whitesmoke !important;
+}
+table a{
+ color: whitesmoke !important;
+ font-weight: bold !important;
+}
+.breadcrumb-item a{
+  color: whitesmoke !important;
+  text-decoration: none !important;
+}
+.breadcrumb li{
+  background-color: transparent !important;
+  font-size: 15px !important;
+}
+.btn-group a{
+  margin-right: 15px;
+  padding-right: 30px !important;
+  padding-left: 30px !important;
+}
+.btn-success{
+  font-weight: bold !important;
+}
+.text a{
+  color: rgb(107, 199, 252) !important;
+}
+.card {
+  background: linear-gradient(128deg, rgba(0, 0, 0, 1) 0%, rgba(13, 35, 65, 1) 53%, rgba(40, 68, 117, 1) 97%) !important;
+  border-radius: 20px !important;
+}
+.tab-pane{
+    background: linear-gradient(128deg, rgba(0, 0, 0, 1) 0%, rgba(13, 35, 65, 1) 53%, rgba(40, 68, 117, 1) 97%) !important;
+}
+select option{
+  color: black !important;
+}
+a.selector-chooseall{
+  background-color: transparent !important;
+  color: rgb(255, 255, 255) !important;
+}
+.breadcrumb-item .active{
+  background-color: transparent !important;
+}
+.active{
+  background-color: rgb(134, 2, 2) !important;
+}
+.nav-link:hover{
+  background-color: rgb(134, 2, 2) !important;
+}
+textarea{
+    background-color: rgb(19, 19, 19) !important;
+    border: none !important;
+    color: whitesmoke !important;
+}
+input{
+    background-color: rgb(19, 19, 19) !important;
+    border: none !important;
+    color: whitesmoke !important;
+}
+.login-logo img{
+  border-radius: 500px !important;
+}
+.jazzmin-login-page{
+  background: linear-gradient(128deg, rgba(0, 0, 0, 1) 0%, rgba(13, 35, 65, 1) 53%, rgba(40, 68, 117, 1) 97%) !important;
+  background-size: cover;
+}
+.login-box-msg{
+  font-size: 15px !important;
+  color: whitesmoke !important; 
+}
