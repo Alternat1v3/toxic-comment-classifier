@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title }}{% endblock %}
+
+{% block responsive %}
+  {{ block.super }}
+  {# Loaded last, so SafeChat's colours and shapes win over Django's defaults. #}
+  <link rel="stylesheet" href="{% static 'admin/safechat.css' %}">
+{% endblock %}
+
+{% block branding %}
+<a class="sc-brand" href="{% url 'admin:index' %}">
+  <span class="sc-logo" aria-hidden="true">S</span>
+  <span class="sc-brand__text"><strong>{{ site_header }}</strong><small>Moderation</small></span>
+</a>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

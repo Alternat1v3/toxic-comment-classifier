@@ -11,8 +11,6 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
-from .jazzmin import JAZZMIN_SETTINGS, JAZZMIN_UI_TWEAKS  # noqa: F401  (read by django-jazzmin)
-
 BASE_DIR = Path(__file__).resolve().parent.parent  # server/
 REPO_DIR = BASE_DIR.parent
 
@@ -40,8 +38,7 @@ ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 
 INSTALLED_APPS = [
     "daphne",  # must come first: `runserver` then serves HTTP and WebSockets
-    "jazzmin",
-    "django.contrib.admin",
+    "chat.admin_site.ModerationAdminConfig",  # the Django admin, as the SafeChat moderation panel
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -70,7 +67,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],  # admin template overrides
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

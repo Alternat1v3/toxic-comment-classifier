@@ -1,0 +1,91 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<div id="content-main" class="sc-dashboard">
+  {% if stats %}
+  <section class="sc-stats" aria-label="Overview">
+    <div class="sc-stat">
+      <span class="sc-stat__label">Messages</span>
+      <strong class="sc-stat__value">{{ stats.messages }}</strong>
+      <span class="sc-stat__hint">{{ stats.today }} in the last 24 hours</span>
+    </div>
+    <a class="sc-stat sc-stat--flag" href="{% url 'admin:chat_message_changelist' %}?flagged=yes">
+      <span class="sc-stat__label">Flagged</span>
+      <strong class="sc-stat__value">{{ stats.flagged }}</strong>
+      <span class="sc-stat__hint">{{ stats.flagged_pct }}% of all messages</span>
+    </a>
+    <a class="sc-stat" href="{% url 'admin:chat_user_changelist' %}">
+      <span class="sc-stat__label">Users</span>
+      <strong class="sc-stat__value">{{ stats.users }}</strong>
+      <span class="sc-stat__hint">{{ stats.users_flagged }} with flagged messages</span>
+    </a>
+    <a class="sc-stat" href="{% url 'admin:chat_feedback_changelist' %}">
+      <span class="sc-stat__label">Feedback</span>
+      <strong class="sc-stat__value">{{ stats.feedback }}</strong>
+      <span class="sc-stat__hint">anonymous notes</span>
+    </a>
+  </section>
+
+  <div class="sc-panels">
+    <section class="sc-card">
+      <h2>Flagged messages by label</h2>
+      {% if stats.flagged %}
+      <ul class="sc-bars">
+        {% for row in stats.by_label %}
+        <li>
+          <span class="sc-bars__label">{{ row.label }}</span>
+          <span class="sc-bars__track"><span class="sc-bars__fill sc-bars__fill--{{ row.kind }}" style="width: {{ row.width }}%"></span></span>
+          <span class="sc-bars__value">{{ row.count }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="sc-empty">Nothing has been flagged yet.</p>
+      {% endif %}
+    </section>
+
+    <section class="sc-card">
+      <h2>Latest flagged messages</h2>
+      {% if stats.recent_flagged %}
+      <ul class="sc-feed">
+        {% for item in stats.recent_flagged %}
+        <li>
+          <a href="{% url 'admin:chat_message_change' item.message.pk %}">
+            <span class="sc-feed__text">{{ item.message.original_content|default:item.message.content|truncatechars:90 }}</span>
+            <span class="sc-feed__meta">
+              <span class="sc-badge sc-badge--{{ item.kind }}">{{ item.message.toxicity_label }}{% if item.message.toxicity_score is not None %} · {% widthratio item.message.toxicity_score 1 100 %}%{% endif %}</span>
+              {{ item.message.sender }} → {{ item.message.receiver }} · {{ item.message.timestamp|timesince }} ago
+            </span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="sc-empty">No flagged messages.</p>
+      {% endif %}
+    </section>
+
+    <section class="sc-card">
+      <h2>Most flagged users</h2>
+      {% if stats.top_users %}
+      <ol class="sc-people">
+        {% for person in stats.top_users %}
+        <li>
+          <a href="{% url 'admin:chat_user_change' person.pk %}">
+            <span class="sc-avatar" aria-hidden="true">{{ person.username|first|upper }}</span>
+            <span class="sc-people__name">{{ person.username }}</span>
+            <span class="sc-people__count">{{ person.toxic_message_count }} flagged</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="sc-empty">No one has sent a flagged message.</p>
+      {% endif %}
+    </section>
+  </div>
+  {% endif %}
+
+  {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+</div>
+{% endblock %}

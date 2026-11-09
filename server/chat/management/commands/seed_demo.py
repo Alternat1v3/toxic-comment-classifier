@@ -29,9 +29,18 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--password", default="demo-pass-2024", help="Password for the demo users.")
+        parser.add_argument(
+            "--with-admin",
+            action="store_true",
+            help="Also create a 'moderator' superuser with the same password, for trying the admin locally. Never use on a real server.",
+        )
 
     @transaction.atomic
-    def handle(self, *args, password, **options):
+    def handle(self, *args, password, with_admin, **options):
+        if with_admin and not User.objects.filter(username="moderator").exists():
+            User.objects.create_superuser("moderator", "moderator@example.com", password)
+            self.stdout.write("Created superuser moderator (admin panel at /admin/)")
+
         users = {}
         for username in USERS:
             user, created = User.objects.get_or_create(username=username, defaults={"email": f"{username}@example.com"})

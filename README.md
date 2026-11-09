@@ -15,12 +15,19 @@ This was my final-year project for the BS Computer Science degree at Virtual Uni
 - **Offensive words are replaced** with milder ones in what the other person sees ("idiot" becomes "fool"). The original text is kept for moderators.
 - **Flagged messages show their label** and the model's confidence, and each user's flagged messages are counted.
 - **Moderation lab**: try the classifier on any text and see the probability of every label.
-- **Admin panel** for moderators: users ranked by flagged messages, messages filtered by label, and what was really typed.
+- **Moderation dashboard** in the Django admin, in the same design as the chat (light and dark): flagged messages by label, the latest flags with what was really typed, the most flagged users, and every message filterable by label.
 
 <table>
   <tr>
     <td><img src="docs/screenshots/moderation-lab.png" alt="Moderation lab showing the probability of each label for a threatening message"></td>
     <td width="28%"><img src="docs/screenshots/chat-phone.png" alt="The chat on a phone"></td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/admin-dashboard.png" alt="The moderation dashboard: message and flag counts, flagged messages by label, the latest flagged messages and the most flagged users"></td>
+    <td><img src="docs/screenshots/admin-messages-dark.png" alt="Flagged messages in the admin in dark mode, with label badges and filters"></td>
   </tr>
 </table>
 
@@ -112,9 +119,10 @@ Until a model exists, the server falls back to the keyword list and says so in t
 **3. Demo data**
 
 ```bash
-python manage.py seed_demo      # users ayesha, bilal and sara, password demo-pass-2024
-python manage.py createsuperuser   # for the admin panel at http://localhost:8000/admin/
+python manage.py seed_demo --with-admin   # users ayesha, bilal and sara, plus a "moderator" admin; password demo-pass-2024
 ```
+
+The moderation dashboard is at http://localhost:8000/admin/ (sign in as `moderator`). `--with-admin` is only for trying it locally; on a real server, create the admin with `python manage.py createsuperuser`.
 
 **4. Frontend**
 
@@ -161,7 +169,7 @@ Everything except sign-up and sign-in requires a session. Chat runs over `ws://l
 ## Tests
 
 ```bash
-cd server && python manage.py test      # 34 tests: API, privacy, WebSocket chat, classifier, word filter
+cd server && python manage.py test      # 38 tests: API, privacy, WebSocket chat, classifier, word filter, admin
 cd frontend && npm test
 ```
 
@@ -172,10 +180,12 @@ GitHub Actions runs both on every push. The server tests use the keyword classif
 ```
 server/                 Django project
   backend/              settings, URLs, ASGI (HTTP + WebSockets)
-  chat/                 models, REST API, WebSocket consumer, admin
+  chat/                 models, REST API, WebSocket consumer, admin and its dashboard
     moderation/         BERT classifier, keyword fallback, word filter
     management/         seed_demo, export_messages
     tests/
+  templates/admin/      admin pages in the chat app's design
+  static/admin/         the admin theme (safechat.css)
 frontend/               React app (Create React App)
   src/pages/            sign in, chats, moderation lab, feedback, settings
 ml/
@@ -193,4 +203,5 @@ docs/screenshots/
 - Word filter matches whole words only, case-insensitively.
 - Reproducible training with a held-out test set, and honest scores.
 - Rebuilt interface with a dark mode, a phone layout and the moderation lab.
+- The admin panel now uses the chat app's design and opens on a moderation dashboard, built on Django's own admin instead of the Jazzmin theme.
 - Tests and continuous integration.

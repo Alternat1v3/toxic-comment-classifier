@@ -1,0 +1,888 @@
+/*
+ * SafeChat theme for the Django admin: the same colours, type, cards and badges as the chat app
+ * (frontend/src/styles.css). Django's admin is built on the CSS variables below; the rest
+ * reshapes its header, sidebar, tables and forms.
+ */
+
+/* ---------- Colours: light, and "auto" while the system is light ---------- */
+html[data-theme="light"],
+:root {
+  --sc-bg: #f4f5fa;
+  --sc-panel: #ffffff;
+  --sc-panel-2: #f8f9fc;
+  --sc-line: #e4e6ef;
+  --sc-border: #d9dcea;
+  --sc-text: #171a2c;
+  --sc-text-2: #3b4060;
+  --sc-text-strong: #0b0d1a;
+  --sc-muted: #646a85;
+  --sc-accent: #4f46e5;
+  --sc-accent-hover: #4338ca;
+  --sc-accent-soft: #eef0ff;
+  --sc-warn: #b45309;
+  --sc-warn-soft: #fff4e5;
+  --sc-danger: #c0262d;
+  --sc-danger-hover: #a11f25;
+  --sc-danger-soft: #fdecee;
+  --sc-ok: #15803d;
+  --sc-ok-soft: #e8f7ee;
+  --sc-close: #8a90aa;
+  --sc-shadow: 0 1px 2px rgba(20, 24, 50, 0.06), 0 6px 20px rgba(20, 24, 50, 0.06);
+  color-scheme: light;
+}
+
+/* ---------- Colours: dark ("auto" while the system is dark, or chosen with the theme switch) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sc-bg: #0e1020;
+    --sc-panel: #161a2e;
+    --sc-panel-2: #1b2036;
+    --sc-line: #262c46;
+    --sc-border: #313857;
+    --sc-text: #e8eaf6;
+    --sc-text-2: #c5c9e0;
+    --sc-text-strong: #ffffff;
+    --sc-muted: #9aa0bd;
+    --sc-accent: #7c74ff;
+    --sc-accent-hover: #918aff;
+    --sc-accent-soft: #232650;
+    --sc-warn: #f5b04b;
+    --sc-warn-soft: #3a2a12;
+    --sc-danger: #ff7b80;
+    --sc-danger-hover: #e5646a;
+    --sc-danger-soft: #3d1a22;
+    --sc-ok: #5ad48a;
+    --sc-ok-soft: #14301f;
+    --sc-close: #4a5170;
+    --sc-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    color-scheme: dark;
+  }
+}
+html[data-theme="dark"] {
+  --sc-bg: #0e1020;
+  --sc-panel: #161a2e;
+  --sc-panel-2: #1b2036;
+  --sc-line: #262c46;
+  --sc-border: #313857;
+  --sc-text: #e8eaf6;
+  --sc-text-2: #c5c9e0;
+  --sc-text-strong: #ffffff;
+  --sc-muted: #9aa0bd;
+  --sc-accent: #7c74ff;
+  --sc-accent-hover: #918aff;
+  --sc-accent-soft: #232650;
+  --sc-warn: #f5b04b;
+  --sc-warn-soft: #3a2a12;
+  --sc-danger: #ff7b80;
+  --sc-danger-hover: #e5646a;
+  --sc-danger-soft: #3d1a22;
+  --sc-ok: #5ad48a;
+  --sc-ok-soft: #14301f;
+  --sc-close: #4a5170;
+  --sc-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  color-scheme: dark;
+}
+
+/*
+ * Django's own colour variables, pointed at the tokens above so they follow light and dark.
+ * "html[data-theme]" is needed: Django's dark_mode.css sets its colours on html[data-theme="dark"],
+ * which outranks a plain :root, so without it the dark theme would show Django's teal and black.
+ */
+:root,
+html[data-theme] {
+  --primary: var(--sc-accent);
+  --secondary: var(--sc-panel);
+  --accent: var(--sc-accent);
+  --primary-fg: #ffffff;
+  --body-fg: var(--sc-text);
+  --body-bg: var(--sc-bg);
+  --body-quiet-color: var(--sc-muted);
+  --body-medium-color: var(--sc-text-2);
+  --body-loud-color: var(--sc-text-strong);
+  --header-color: var(--sc-text);
+  --header-branding-color: var(--sc-text);
+  --header-bg: var(--sc-panel);
+  --header-link-color: var(--sc-accent);
+  --breadcrumbs-fg: var(--sc-muted);
+  --breadcrumbs-link-fg: var(--sc-accent);
+  --breadcrumbs-bg: transparent;
+  --link-fg: var(--sc-accent);
+  --link-hover-color: var(--sc-accent-hover);
+  --link-selected-fg: var(--sc-accent);
+  --hairline-color: var(--sc-line);
+  --border-color: var(--sc-border);
+  --error-fg: var(--sc-danger);
+  --message-success-bg: var(--sc-ok-soft);
+  --message-warning-bg: var(--sc-warn-soft);
+  --message-error-bg: var(--sc-danger-soft);
+  --darkened-bg: var(--sc-panel-2);
+  --selected-bg: var(--sc-accent-soft);
+  --selected-row: var(--sc-accent-soft);
+  --button-fg: #ffffff;
+  --button-bg: var(--sc-accent);
+  --button-hover-bg: var(--sc-accent-hover);
+  --default-button-bg: var(--sc-accent);
+  --default-button-hover-bg: var(--sc-accent-hover);
+  --close-button-bg: var(--sc-close);
+  --close-button-hover-bg: var(--sc-muted);
+  --delete-button-bg: var(--sc-danger);
+  --delete-button-hover-bg: var(--sc-danger-hover);
+  --object-tools-fg: #ffffff;
+  --object-tools-bg: var(--sc-accent);
+  --object-tools-hover-bg: var(--sc-accent-hover);
+  --font-family-primary: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- Base ---------- */
+body {
+  background: var(--sc-bg);
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+a:link,
+a:visited {
+  color: var(--sc-accent);
+}
+a:focus,
+a:hover {
+  color: var(--sc-accent-hover);
+}
+:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: 2px;
+}
+#content h1 {
+  margin: 0 0 18px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--sc-text);
+}
+#content h2 {
+  font-size: 1.05rem;
+}
+#content {
+  padding: 24px 28px 40px;
+}
+/* Django limits the front page to 600px; the dashboard needs the room. */
+.dashboard #content {
+  width: auto;
+  max-width: 1280px;
+}
+
+/* ---------- Header ---------- */
+#header {
+  padding: 12px 28px;
+  background: var(--sc-panel);
+  border-bottom: 1px solid var(--sc-line);
+  color: var(--sc-text);
+}
+#branding {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sc-brand,
+.sc-brand:link,
+.sc-brand:visited {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--sc-text);
+  text-decoration: none;
+}
+.sc-logo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f46e5, #a855f7);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1rem;
+}
+.sc-brand__text {
+  display: grid;
+  line-height: 1.15;
+}
+.sc-brand__text strong {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.sc-brand__text small {
+  color: var(--sc-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+#user-tools {
+  color: var(--sc-muted);
+  font-size: 0.85rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+#user-tools a,
+#user-tools button {
+  color: var(--sc-accent);
+  border-bottom: 0;
+}
+#user-tools a:hover,
+#user-tools button:hover {
+  color: var(--sc-accent-hover);
+  text-decoration: underline;
+}
+#logout-form button {
+  font-size: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ---------- Breadcrumbs ---------- */
+div.breadcrumbs {
+  padding: 14px 28px 0;
+  background: transparent;
+  color: var(--sc-muted);
+  font-size: 0.85rem;
+}
+div.breadcrumbs a {
+  color: var(--sc-accent);
+}
+
+/* ---------- Sidebar navigation ---------- */
+#nav-sidebar {
+  background: var(--sc-panel);
+  border-right: 1px solid var(--sc-line);
+}
+#nav-sidebar .module {
+  margin: 12px 10px;
+}
+#toggle-nav-sidebar {
+  background: var(--sc-panel);
+  border-right: 1px solid var(--sc-line);
+  color: var(--sc-muted);
+}
+#nav-sidebar .module caption,
+#nav-sidebar .module caption a {
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--sc-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+#nav-sidebar th,
+#nav-sidebar td {
+  border: 0;
+  background: transparent;
+}
+#nav-sidebar th a {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: var(--sc-text);
+  font-weight: 600;
+}
+#nav-sidebar th a:hover {
+  background: var(--sc-panel-2);
+}
+#nav-sidebar .current-model,
+#nav-sidebar .current-model th a {
+  background: var(--sc-accent-soft);
+  color: var(--sc-accent);
+}
+#nav-sidebar .current-app .section:link,
+#nav-sidebar .current-app .section:visited {
+  color: var(--sc-accent);
+}
+#nav-filter {
+  border: 1px solid var(--sc-line);
+  border-radius: 10px;
+  background: var(--sc-panel-2);
+  color: var(--sc-text);
+}
+
+/* ---------- Cards (modules) ---------- */
+.module,
+.sc-card,
+.sc-stat,
+#changelist-filter,
+.inline-group,
+#content-related .module {
+  background: var(--sc-panel);
+  border: 1px solid var(--sc-line);
+  border-radius: 14px;
+  box-shadow: var(--sc-shadow);
+}
+.module {
+  overflow: hidden;
+}
+#nav-sidebar .module {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.module h2,
+.module caption,
+.inline-group h2 {
+  padding: 12px 16px;
+  background: transparent;
+  color: var(--sc-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  border-bottom: 1px solid var(--sc-line);
+}
+.module caption a.section:link,
+.module caption a.section:visited {
+  color: var(--sc-text);
+}
+#content-related {
+  background: transparent;
+}
+#content-related h2 {
+  color: var(--sc-text);
+}
+#content-related .module {
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.module table,
+.app-list table,
+.module tbody tr,
+#nav-sidebar tbody tr {
+  background: transparent;
+}
+
+/* ---------- Tables ---------- */
+thead th,
+tfoot td {
+  background: var(--sc-panel-2);
+  border-top: 0;
+  border-bottom: 1px solid var(--sc-line);
+  color: var(--sc-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+thead th a:link,
+thead th a:visited {
+  color: var(--sc-muted);
+}
+td,
+th {
+  border-bottom: 1px solid var(--sc-line);
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+tr:last-child td,
+tr:last-child th {
+  border-bottom: 0;
+}
+#result_list tbody tr,
+#result_list tbody tr:nth-child(even) {
+  background: transparent;
+}
+#result_list tbody tr:hover,
+.app-list tbody tr:hover,
+.module tbody tr:hover {
+  background: var(--sc-panel-2);
+}
+#result_list tbody tr.selected {
+  background: var(--sc-accent-soft);
+}
+.row1,
+.row2 {
+  background: transparent;
+}
+
+/* ---------- Buttons ---------- */
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--sc-accent);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover {
+  background: var(--sc-accent-hover);
+}
+.submit-row {
+  padding: 14px 16px;
+  border: 1px solid var(--sc-line);
+  border-radius: 14px;
+  background: var(--sc-panel);
+  box-shadow: var(--sc-shadow);
+}
+.submit-row a.deletelink {
+  padding: 9px 16px;
+  border-radius: 10px;
+  background: var(--sc-danger-soft);
+  color: var(--sc-danger);
+  font-weight: 600;
+}
+.submit-row a.deletelink:hover {
+  background: var(--sc-danger);
+  color: #ffffff;
+}
+.object-tools a:link,
+.object-tools a:visited {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--sc-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.object-tools a:hover {
+  background: var(--sc-accent-hover);
+}
+a.addlink,
+a.changelink,
+a.viewlink {
+  font-weight: 600;
+}
+
+/* ---------- Forms ---------- */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+textarea,
+select,
+.vTextField {
+  padding: 8px 10px;
+  border: 1px solid var(--sc-line);
+  border-radius: 10px;
+  background: var(--sc-panel-2);
+  color: var(--sc-text);
+  font-size: 0.9rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--sc-accent);
+  box-shadow: 0 0 0 3px var(--sc-accent-soft);
+}
+fieldset.module {
+  padding: 0 0 8px;
+}
+.form-row {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--sc-line);
+}
+.aligned label,
+.form-row label {
+  color: var(--sc-text);
+  font-weight: 600;
+}
+.help,
+p.help,
+form .help,
+div.help {
+  color: var(--sc-muted);
+}
+.readonly {
+  color: var(--sc-text);
+}
+.errornote,
+ul.errorlist li {
+  border-radius: 10px;
+}
+
+/* ---------- Change list ---------- */
+#changelist .actions {
+  box-sizing: border-box; /* Django sets width: 100%, so padding would push it past the table */
+  padding: 10px 14px;
+  border: 1px solid var(--sc-line);
+  border-radius: 12px;
+  background: var(--sc-panel);
+  color: var(--sc-muted);
+}
+#changelist #toolbar {
+  padding: 12px 14px;
+  border: 1px solid var(--sc-line);
+  border-radius: 12px;
+  background: var(--sc-panel);
+}
+#changelist #toolbar form input[type="submit"],
+#changelist .actions .button {
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--sc-accent);
+  color: #ffffff;
+  font-weight: 600;
+}
+#changelist #toolbar form input[type="submit"]:hover,
+#changelist .actions .button:hover {
+  background: var(--sc-accent-hover);
+}
+#changelist .results,
+#changelist .paginator {
+  border-radius: 14px;
+}
+#changelist .results {
+  box-sizing: border-box;
+  overflow: auto;
+  border: 1px solid var(--sc-line);
+  background: var(--sc-panel);
+  box-shadow: var(--sc-shadow);
+}
+#changelist .paginator {
+  border: 0;
+  background: transparent;
+  color: var(--sc-muted);
+}
+#changelist-filter {
+  overflow: hidden;
+}
+#changelist-filter h2 {
+  padding: 12px 16px;
+  background: transparent;
+  color: var(--sc-text);
+  border-bottom: 1px solid var(--sc-line);
+}
+#changelist-filter h3,
+#changelist-filter summary {
+  color: var(--sc-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+#changelist-filter li a {
+  border-radius: 8px;
+  padding: 3px 8px;
+  margin-left: -8px;
+}
+#changelist-filter li.selected a {
+  background: var(--sc-accent-soft);
+  color: var(--sc-accent);
+  font-weight: 700;
+}
+/* Date navigation above the list ("‹ 2026", "November 9") as chips. */
+#changelist .toplinks {
+  align-items: center;
+  gap: 6px 8px;
+  padding-bottom: 12px;
+  border-bottom: 0;
+}
+#changelist .toplinks a {
+  padding: 4px 12px;
+  border: 1px solid var(--sc-line);
+  border-radius: 999px;
+  background: var(--sc-panel);
+  font-size: 0.8rem;
+}
+#changelist .toplinks a.date-back {
+  color: var(--sc-muted);
+}
+
+/* ---------- Messages ---------- */
+ul.messagelist li {
+  margin: 0 0 8px;
+  padding: 12px 16px 12px 44px;
+  border-radius: 12px;
+  background-color: var(--sc-ok-soft);
+  color: var(--sc-ok);
+  font-weight: 600;
+}
+ul.messagelist li.warning {
+  background-color: var(--sc-warn-soft);
+  color: var(--sc-warn);
+}
+ul.messagelist li.error {
+  background-color: var(--sc-danger-soft);
+  color: var(--sc-danger);
+}
+
+/* ---------- Toxicity badges (same as the chat app) ---------- */
+.sc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.sc-badge--ok {
+  background: var(--sc-ok-soft);
+  color: var(--sc-ok);
+}
+.sc-badge--warn {
+  background: var(--sc-warn-soft);
+  color: var(--sc-warn);
+}
+.sc-badge--severe {
+  background: var(--sc-danger-soft);
+  color: var(--sc-danger);
+}
+.sc-muted {
+  color: var(--sc-muted);
+}
+
+/* ---------- Dashboard ---------- */
+.sc-dashboard {
+  display: grid;
+  gap: 20px;
+}
+.sc-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.sc-stat,
+.sc-stat:link,
+.sc-stat:visited {
+  display: grid;
+  gap: 4px;
+  padding: 18px 20px;
+  color: var(--sc-text);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+a.sc-stat:hover {
+  border-color: var(--sc-accent);
+  color: var(--sc-text);
+  transform: translateY(-1px);
+}
+.sc-stat__label {
+  color: var(--sc-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.sc-stat__value {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.sc-stat__hint {
+  color: var(--sc-muted);
+  font-size: 0.8rem;
+}
+.sc-stat--flag .sc-stat__value {
+  color: var(--sc-warn);
+}
+.sc-panels {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.sc-card {
+  padding: 18px 20px;
+}
+.sc-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sc-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: none;
+}
+.sc-empty {
+  margin: 0;
+  color: var(--sc-muted);
+}
+.sc-bars,
+.sc-feed,
+.sc-people {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sc-bars li {
+  display: grid;
+  grid-template-columns: 96px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  font-size: 0.85rem;
+  list-style: none;
+}
+.sc-bars__label {
+  color: var(--sc-muted);
+  text-transform: capitalize;
+}
+.sc-bars__track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sc-panel-2);
+  overflow: hidden;
+}
+.sc-bars__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+.sc-bars__fill--warn {
+  background: var(--sc-warn);
+}
+.sc-bars__fill--severe {
+  background: var(--sc-danger);
+}
+.sc-bars__value {
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sc-feed li,
+.sc-people li {
+  padding: 0;
+  list-style: none;
+}
+.sc-feed a,
+.sc-people a {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--sc-panel-2);
+  color: var(--sc-text);
+  text-decoration: none;
+}
+.sc-feed a:hover,
+.sc-people a:hover {
+  background: var(--sc-accent-soft);
+  color: var(--sc-text);
+}
+.sc-feed__text {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.sc-feed__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--sc-muted);
+  font-size: 0.78rem;
+}
+.sc-people a {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+.sc-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--sc-accent-soft);
+  color: var(--sc-accent);
+  font-weight: 700;
+}
+.sc-people__name {
+  font-weight: 600;
+}
+.sc-people__count {
+  color: var(--sc-warn);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+/* The app list's modules sit straight in the dashboard grid, which already spaces them. */
+.sc-dashboard > .module {
+  margin-bottom: 0;
+}
+
+/* ---------- Sign-in page ---------- */
+body.login {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  background: var(--sc-bg);
+}
+body.login #container {
+  width: min(400px, calc(100vw - 32px));
+  border: 1px solid var(--sc-line);
+  border-radius: 16px;
+  background: var(--sc-panel);
+  box-shadow: var(--sc-shadow);
+  overflow: hidden;
+}
+body.login #header {
+  padding: 20px 24px 8px;
+  border: 0;
+}
+body.login #content {
+  padding: 8px 24px 24px;
+}
+body.login .form-row {
+  padding: 8px 0;
+  border: 0;
+}
+body.login .form-row label {
+  display: block;
+  margin-bottom: 6px;
+}
+body.login .form-row input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+}
+body.login .submit-row {
+  padding: 12px 0 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+body.login .submit-row input {
+  width: 100%;
+  padding: 11px;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 1100px) {
+  .sc-panels {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 767px) {
+  #header {
+    padding: 10px 16px;
+  }
+  #content {
+    padding: 16px 16px 32px;
+  }
+  div.breadcrumbs {
+    padding: 12px 16px 0;
+  }
+  .sc-stats,
+  .sc-panels {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sc-panels {
+    grid-template-columns: 1fr;
+  }
+  .sc-stat__value {
+    font-size: 1.6rem;
+  }
+}
