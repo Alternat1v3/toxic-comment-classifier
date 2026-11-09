@@ -12,13 +12,14 @@ Projects/
 db.sqlite3
 db.*.sqlite3
 media/
+staticfiles/
 chat_data.csv
 preprocessed_chat_data.csv
 true_labels.csv
 predicted_labels.csv
 
 # Trained model weights (about 420 MB; see README for how to get or train them)
-results/
+ml/model*/
 
 # Node
 node_modules/
